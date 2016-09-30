@@ -59,10 +59,12 @@ public class Principal extends javax.swing.JFrame {
         tblTablaFinal = new javax.swing.JTable();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblTablaInicial = new javax.swing.JTable();
-        jLabel4 = new javax.swing.JLabel();
+        txtMensaje = new javax.swing.JLabel();
+        txtMensaje1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(""), "Taller Matrices AD (No. 1)"));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 2, 18)); // NOI18N
@@ -168,67 +170,98 @@ public class Principal extends javax.swing.JFrame {
 
         jPanel1.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, 360, 240));
 
-        jLabel4.setText("Nota: deje 13 en las casillas para que la matriz sea mejor formada, sino cambielo");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 510, -1, -1));
+        txtMensaje.setForeground(new java.awt.Color(0, 204, 0));
+        txtMensaje.setText("Nota: deje 13 en las casillas para que la matriz sea mejor formada, sino editelo");
+        jPanel1.add(txtMensaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 510, -1, 20));
+
+        txtMensaje1.setForeground(new java.awt.Color(0, 204, 0));
+        txtMensaje1.setText("El numero de filas y columnas deben de ser iguales");
+        jPanel1.add(txtMensaje1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 510, -1, 20));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 767, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 786, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 533, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
-        setSize(new java.awt.Dimension(783, 572));
+        setSize(new java.awt.Dimension(802, 593));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void cmdCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdCrearActionPerformed
+    try {
+            int cont = 0;
+            if (txtNumeroFilas.getText().trim().isEmpty()) {
+                Helper.mensaje(this, "Digite por favor el numero de filas", 1);
+                txtNumeroFilas.requestFocusInWindow();
+            } else if (Integer.parseInt(txtNumeroFilas.getText()) < 5 || Integer.parseInt(txtNumeroFilas.getText()) > 13) {
+                Helper.mensaje(this, "el numero de filas debe mayor a 4 y menor a 14 ", 3);
+                txtNumeroFilas.requestFocusInWindow();
+                txtNumeroFilas.selectAll();
+            } else if (txtNumeroColumnas.getText().trim().isEmpty()) {
+                Helper.mensaje(this, "Digite por favor el numero de columnas", 1);
+                txtNumeroColumnas.requestFocusInWindow();
+            } else if (Integer.parseInt(txtNumeroColumnas.getText()) < 5 || Integer.parseInt(txtNumeroColumnas.getText()) > 13) {
+                Helper.mensaje(this, "el numero de columnas debe mayor a 4 y menor a 14 ", 3);
+                txtNumeroColumnas.requestFocusInWindow();
+                txtNumeroColumnas.selectAll();
+            } else if ((Integer.parseInt(txtNumeroFilas.getText())) != (Integer.parseInt(txtNumeroColumnas.getText()))) {
+                Helper.mensaje(this, "El numero de filas y columnas deben de ser iguales", 3);
+                txtNumeroFilas.requestFocusInWindow();
+                txtNumeroFilas.selectAll();
+            } else if (Integer.parseInt(txtNumeroFilas.getText()) % 2 == 0) {
+                cont++;
+                if (cont >= 1) {
+                    Helper.mensaje(this, "En esta matriz solo se permite longitudes impares", 3);
+                    txtNumeroFilas.requestFocusInWindow();
+                    txtNumeroFilas.selectAll();
+                }
+            } else if (Integer.parseInt(txtNumeroColumnas.getText()) % 2 == 0) {
+                cont++;
+                if (cont >= 1) {
+                    Helper.mensaje(this, "En esta matriz solo se permite longitudes impares", 3);
+                    txtNumeroColumnas.requestFocusInWindow();
+                    txtNumeroColumnas.selectAll();
+                }
+            } else {
+                DefaultTableModel tm = (DefaultTableModel) tblTablaInicial.getModel();
+                DefaultTableModel tm2 = (DefaultTableModel) tblTablaFinal.getModel();
 
-        if (txtNumeroFilas.getText().trim().isEmpty()) {
-            Helper.mensaje(this, "Digite por favor el numero de filas", 1);
-            txtNumeroFilas.requestFocusInWindow();
-        } else if (Integer.parseInt(txtNumeroFilas.getText()) < 6 || Integer.parseInt(txtNumeroFilas.getText()) > 13) {
-            Helper.mensaje(this, "el numero de filas debe mayor a 5 y menor a 14 ", 1);
-            txtNumeroFilas.requestFocusInWindow();
-            txtNumeroFilas.selectAll();
-        } else if (txtNumeroColumnas.getText().trim().isEmpty()) {
-            Helper.mensaje(this, "Digite por favor el numero de columnas", 1);
-            txtNumeroColumnas.requestFocusInWindow();
-        } else if (Integer.parseInt(txtNumeroColumnas.getText()) < 6 || Integer.parseInt(txtNumeroColumnas.getText()) > 13) {
-            Helper.mensaje(this, "el numero de columnas debe mayor a 5 y menor a 14 ", 1);
-            txtNumeroColumnas.requestFocusInWindow();
-            txtNumeroColumnas.selectAll();
+                int nf = Integer.parseInt(txtNumeroFilas.getText());
+                int nc = Integer.parseInt(txtNumeroColumnas.getText());
 
-        } else {
+                tm.setRowCount(nf);
+                tm.setColumnCount(nc);
 
-            DefaultTableModel tm = (DefaultTableModel) tblTablaInicial.getModel();
-            DefaultTableModel tm2 = (DefaultTableModel) tblTablaFinal.getModel();
+                tm2.setRowCount(nf);
+                tm2.setColumnCount(nc);
 
-            int nf = Integer.parseInt(txtNumeroFilas.getText());
-            int nc = Integer.parseInt(txtNumeroColumnas.getText());
+                JButton botonesH[] = {cmdAutomatico, cmdManual, cmdLimpiar};
+                JButton botonesD[] = {cmdCrear, cmdOperacion};
 
-            tm.setRowCount(nf);
-            tm.setColumnCount(nc);
+                Helper.habilitarBotones(botonesH);
+                Helper.deshabilitarBotones(botonesD);
 
-            tm2.setRowCount(nf);
-            tm2.setColumnCount(nc);
-
-            JButton botonesH[] = {cmdAutomatico, cmdManual, cmdLimpiar};
-            JButton botonesD[] = {cmdCrear, cmdOperacion};
-
-            Helper.habilitarBotones(botonesH);
-            Helper.deshabilitarBotones(botonesD);
-
-            txtNumeroColumnas.setEditable(false);
-            txtNumeroFilas.setEditable(false);
+                txtNumeroColumnas.setEditable(false);
+                txtNumeroFilas.setEditable(false);
+                txtMensaje.setText("");
+                txtMensaje1.setText("");
+            }
+        
+        } catch (NumberFormatException e) {
+            Helper.mensaje(this, "Digite un numero valido", 3);
 
         }
+    
     }//GEN-LAST:event_cmdCrearActionPerformed
 
     private void cmdManualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdManualActionPerformed
@@ -245,7 +278,7 @@ public class Principal extends javax.swing.JFrame {
                 do {
                     sw = 1;
                     try {
-                        n = Integer.parseInt(JOptionPane.showInputDialog(this, "Digite el elmento en la posición [" + i + "]" + "[" + j + "]").trim());
+                        n = Integer.parseInt(JOptionPane.showInputDialog(this, "Digite el elmento en la posición [" + i + "]" + "[" + j + "]", 1).trim());
                         tblTablaInicial.setValueAt(n, i, j);
 
                     } catch (NumberFormatException e) {
@@ -259,8 +292,11 @@ public class Principal extends javax.swing.JFrame {
                             i = nf;
                             j = nc;
 
-                            Helper.porDefectoTabla(tblTablaInicial);
-                            Helper.porDefectoTabla(tblTablaFinal);
+                            JButton botonesH[] = {cmdAutomatico, cmdManual, cmdLimpiar, cmdOperacion};
+                            JButton botonesD[] = {cmdOperacion, cmdCrear,};
+
+                            Helper.habilitarBotones(botonesH);
+                            Helper.deshabilitarBotones(botonesD);
 
                         } else {
                             sw = 0;
@@ -269,13 +305,11 @@ public class Principal extends javax.swing.JFrame {
                 } while (sw == 0);
             }
         }
-        
         JButton botonesH[] = {cmdLimpiar, cmdOperacion};
         JButton botonesD[] = {cmdAutomatico, cmdManual, cmdCrear,};
 
         Helper.habilitarBotones(botonesH);
         Helper.deshabilitarBotones(botonesD);
-        
     }//GEN-LAST:event_cmdManualActionPerformed
 
     private void cmdAutomaticoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdAutomaticoActionPerformed
@@ -358,10 +392,11 @@ public class Principal extends javax.swing.JFrame {
 
         txtNumeroFilas.setText("13");
         txtNumeroColumnas.setText("13");
-        
+        txtMensaje.setText("Nota: deje 13 en las casillas para que la matriz sea mejor formada, sino cambielo");
+        txtMensaje1.setText("El numero de filas y columnas deben de ser iguales");
         txtNumeroFilas.selectAll();
         txtNumeroColumnas.selectAll();
-        
+
         txtNumeroFilas.requestFocusInWindow();
         cmbOperaciones.setSelectedIndex(0);
 
@@ -384,7 +419,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_cmbOperacionesActionPerformed
 
     private void txtNumeroColumnasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumeroColumnasActionPerformed
-        
+
     }//GEN-LAST:event_txtNumeroColumnasActionPerformed
 
     /**
@@ -432,7 +467,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -440,6 +474,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable tblTablaFinal;
     private javax.swing.JTable tblTablaInicial;
+    private javax.swing.JLabel txtMensaje;
+    private javax.swing.JLabel txtMensaje1;
     private javax.swing.JTextField txtNumeroColumnas;
     private javax.swing.JTextField txtNumeroFilas;
     // End of variables declaration//GEN-END:variables
